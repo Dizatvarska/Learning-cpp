@@ -7,24 +7,20 @@ private:
     int rows;
     int cols;
     int depth;
-public:
-    Array() {} // Конструктор без параметрів
-
-    int* CreateArray(const int rows)
+   
+	 static int* CreateArray(const int rows)
     {
         int *arr = new int[rows];
         return 	arr;
     }
-    
-    void FillArray(int* const arr, int const rows) 
+	static void FillArray(int* const arr, int const rows) 
     {
         for (int i = 0; i < rows; i++)
         {
             arr[i] = i;
         }
     }
-
-    void ShowArray(int* const arr, const int rows)
+	static void ShowArray(int* const arr, const int rows)
     {
         for (int i = 0; i < rows; i++)
         {
@@ -33,13 +29,12 @@ public:
         cout << endl;
     }
 
-    void Delete1DArray(int* arr)
+	static void Delete1DArray(int* arr)
     {
         delete[] arr;
     }
-    // ******************************************
-
-    int** CreateArray(const int rows, const int cols)
+//*******************2d arr****************************************
+	static int** CreateArray(const int rows, const int cols)
     {
         int** arr = new int* [rows];
         for (int i = 0; i < rows; i++)
@@ -48,8 +43,7 @@ public:
         }
         return arr;
     }
-    
-    void FillArray(int** const arr, const int rows, const int cols) 
+ 	static void FillArray(int** const arr, const int rows, const int cols) 
     {
         for (int i = 0; i < rows; i++)
         {
@@ -58,7 +52,7 @@ public:
 
     }
 
-    void ShowArray(int** const arr, const int rows, const int cols) 
+ 	static void ShowArray(int** const arr, const int rows, const int cols) 
     {
         for (int i = 0; i < rows; i++)
         {
@@ -67,8 +61,7 @@ public:
         cout << endl;
 
     }
-
-    void Delete2DArray(int** arr, const int rows)
+	static void Delete2DArray(int** arr, const int rows)
     {
         for (int i = 0; i < rows; i++)
         {
@@ -76,10 +69,8 @@ public:
         }
         delete[]arr;
     }
-
-    //************************************************************
-
-    int*** CreateArray(const int rows, const int cols, const int depth)
+//*************************2d arr*************************
+	 static int*** CreateArray(const int rows, const int cols, const int depth)
     {
         int*** arr = new int** [depth];
         for (int i = 0; i < depth; i++)
@@ -89,7 +80,7 @@ public:
         return arr;
     }
 
-    void FillArray(int*** const arr, const int rows, const int cols, const int depth) 
+	static void FillArray(int*** const arr, const int rows, const int cols, const int depth) 
     {
         for (int i = 0; i < depth; i++)
         {
@@ -97,17 +88,15 @@ public:
         }
 
     }
-
-    void ShowArray(int*** const arr, const int rows, const int cols, const int depth) 
+	 static void ShowArray(int*** const arr, const int rows, const int cols, const int depth) 
     {
         for (int i = 0; i < depth; i++)
         {
             ShowArray(arr[i], rows, cols);
         }
         cout << endl;
-    }
-
-    void Delete3DArray(int*** arr, const int rows, const int cols)
+    }	
+       	static void Delete3DArray(int*** arr, const int rows, const int cols)
     {
         for (int i = 0; i < cols; i++)
         {
@@ -115,6 +104,87 @@ public:
         }
         delete[]arr;
     }
+
+public:
+	int* arr1;
+      	int** arr2;
+       	int*** arr3;
+	Array(int valueRows)
+	{
+		this->rows = valueRows;
+		this->cols = 0;
+		this->depth = 0;
+    		this->arr1 = CreateArray(rows);
+		FillArray(this->arr1, rows);
+	}
+	~Array()
+	{
+		if (cols == 0 and depth == 0)
+		{
+			Delete1DArray(this->arr1);
+		}
+		else if (depth == 0)
+		{
+			Delete2DArray(this->arr2, this->rows);
+		}
+		else
+		{
+		Delete3DArray(this->arr3, this->rows, this->cols);
+		}
+	}
+	Array(int valueRows, int valueCols)
+	{
+		this->rows = valueRows;
+		this->cols = valueCols;
+		this->depth =0;
+		this->arr2 = CreateArray(rows, cols);
+		FillArray(this->arr2, rows, cols);
+	}
+	Array(int valueRows,  int valueCols,  int valueDepth)
+	{
+		this->rows = valueRows;
+		this->cols = valueCols;
+		this->depth = valueDepth;
+		this->arr3 = CreateArray(rows, cols, depth);
+		FillArray(this->arr3, rows, cols, depth);
+	}
+	void ShowArray()
+	{
+		
+		if (cols == 0 and depth == 0)
+		{
+			ShowArray(this->arr1, this->rows);
+		}
+		else if (depth == 0)
+		{
+			ShowArray(this->arr2, this->rows, this->cols);
+		}
+		else
+		{
+			ShowArray(this->arr3, this->rows, this->cols, this->depth);
+		}
+	}
+    
+
+    //Array() {} // Конструктор без параметрів
+	
+   
+
+
+    // ******************************************
+
+      
+
+
+
+    //************************************************************
+
+  
+
+
+
+
+
 };
 //*************************************
 
@@ -128,25 +198,24 @@ int main()
     cout << "Please input depth:\t";
     cin >> depth;
     cout << "*********************1d array*********************" << endl;
-    Array arr;
-    int* arr1 = arr.CreateArray(rows);
-    arr.FillArray(arr1, rows);
-    arr.ShowArray(arr1, rows);
-    arr.Delete1DArray(arr1);
+    Array arr_object1 = Array(rows);
+//    arr_object1.FillArray(arr_object1.arr1, rows);
+    arr_object1.ShowArray();
+   // arr_object1.Delete1DArray(arr_object1.arr1);
     cout << "*********************1d array*********************" << endl;
 
     cout << "*********************2d array*********************" << endl;
-    int** arr2 = arr.CreateArray(rows, cols);
-    arr.FillArray(arr2, rows, cols);
-    arr.ShowArray(arr2, rows, cols);
-    arr.Delete2DArray(arr2, rows);
+    Array arr_object2 = Array(rows, cols);
+  //  arr_object2.FillArray(arr_object2.arr2, rows, cols);
+   arr_object2.ShowArray();
+   // arr_object2.Delete2DArray(arr_object2.arr2, rows);
     cout << "*********************2d array*********************" << endl;
 
     cout << "*********************3d array*********************" << endl;
-    int*** arr3 = arr.CreateArray(rows, cols, depth);
-    arr.FillArray(arr3, rows, cols, depth);
-    arr.ShowArray(arr3, rows, cols, depth);
-    arr.Delete3DArray(arr3, rows, cols);
+    Array arr_object3 = Array(rows, cols, depth);
+    //arr_object3.FillArray(arr_object3.arr3, rows, cols, depth);
+   arr_object3.ShowArray();
+   // arr_object3.Delete3DArray(arr_object3.arr3, rows, cols);
     cout << "*********************3d array*********************" << endl;
     return 0;
 }
